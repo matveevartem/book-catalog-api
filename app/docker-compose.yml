@@ -1,0 +1,39 @@
+version: '3.9'
+services:
+  php:
+    image: yiisoftware/yii2-php:7.4-apache
+    container_name: ${APP_NAME}-php
+    volumes:
+      - ~/.composer-docker/cache:/root/.composer/cache:delegated
+    #  - ./:/app:delegated
+      - ./:/app
+    ports:
+      - ${PHP_PORT}:80
+    networks:
+      - app-network
+  db:
+    image: postgres:alpine
+    container_name: ${APP_NAME}-db
+    restart: unless-stopped
+    tty: true
+    ports:
+      - ${DB_PORT}:5432
+    environment:
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+      SERVICE_TAGS: ${APP_ENV}
+      SERVICE_NAME: ${DB_SERVICE_NAME}
+    volumes:
+      - dbdata:/var/lib/postgres
+      - ./:/app
+    networks:
+      - app-network
+
+#Docker Networks
+networks:
+  app-network:
+    driver: bridge
+volumes:
+  dbdata:
+    driver: local

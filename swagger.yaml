@@ -1,0 +1,486 @@
+swagger: '2.0'
+info:
+  title: Book Catalog API
+  version: '1.0'
+schemes:
+  - http
+  - https
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /v1/book:
+    get:
+      summary: GET /v1/books
+      operationId: ListBooks
+      responses:
+        '200':
+          description: 'Returns a full list of books or a filtered list of books'
+          schema:
+            $ref: '#/definitions/BooksResponse'
+      parameters:
+        - name: text
+          in: path
+          type: string
+          format: 
+          description: 'Search text in book`s title or description'
+          value: "Search text"
+        - name: author_id
+          in: path
+          type: number|array
+          description: 'Author ID or array of authors ID'
+          value: [1,2]
+        - name: language_id
+          in: path
+          type: number|array
+          description: 'Language ID or array of languages ID'
+          value: [1,2]
+        - name: genre_id
+          in: path
+          type: number
+          description: 'Genre ID'
+          value: "1"
+        - name: pages
+          type: string
+          pattern: '^\d{3}|\d{2},\d{3}$'
+          description: 'Contains the pages between the first and last if there are two values, or the minimum number of pages if there is one'
+          value: "100 or 100,1000"
+        - name: limit
+          in: path
+          type: number
+          description: 'Limit'
+          value: "100"
+        - name: offset
+          in: path
+          type: number
+          description: 'Offset'
+          value: "0"
+      tags:
+        - Generic
+    post:
+      summary: POST /v1/book
+      operationId: AddBook
+      responses:
+        '200':
+          description: 'Add new book'
+          schema:
+            $ref: '#/definitions/BookObject'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/BookRequest'
+      tags:
+        - Generic
+  /v1/book/{id}:
+    put:
+      summary: PUT /v1/book/:id
+      operationId: UpdateBook
+      responses:
+        '200':
+          description: 'Update an existed book'
+          schema:
+            $ref: '#/definitions/BookObject'
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Book ID
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/BookRequest'
+      tags:
+        - Generic
+    patch:
+      summary: PATCH /v1/book/:id
+      operationId: UpdateBook
+      responses:
+        '200':
+          description: 'Update an existed book'
+          schema:
+            $ref: '#/definitions/BookObject'
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Book ID
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/BookRequest'
+      tags:
+        - Generic
+    delete:
+      summary: DELETE /v1/book/:id
+      operationId: DeleteBook
+      responses:
+        '204':
+          description: 'Delete an existed book'
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Book ID
+      tags:
+        - Generic
+  /v1/author:
+    get:
+      summary: GET /v1/authors
+      operationId: ListAuthors
+      responses:
+        '200':
+          description: 'Returns a full list of authors'
+          schema:
+            $ref: '#/definitions/AuthorsResponse'
+      tags:
+        - Generic
+    post:
+      summary: POST /v1/author
+      operationId: AddAuthor
+      responses:
+        '200':
+          description: 'Add new author'
+          schema:
+            $ref: '#/definitions/AuthorsResponse'
+      tags:
+        - Generic
+  /v1/author/{id}:
+    put:
+      summary: PUT /v1/author/:id
+      operationId: UpdateAuthor
+      responses:
+        '200':
+          description: 'Update an existed author'
+          schema:
+            $ref: '#/definitions/AuthorObject'
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Book ID
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/AuthorRequest'
+      tags:
+        - Generic
+    patch:
+      summary: PATCH /v1/author/:id
+      operationId: UpdateAuthor
+      responses:
+        '200':
+          description: 'Update an existed author'
+          schema:
+            $ref: '#/definitions/AuthorObject'
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Author ID
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/AuthorRequest'
+      tags:
+        - Generic
+  /v1/language:
+    get:
+      summary: GET /v1/languages
+      operationId: ListLanguages
+      responses:
+        '200':
+          description: 'Returns a full list of languages'
+          schema:
+            $ref: '#/definitions/LanguagesResponse'
+      tags:
+        - Generic
+    post:
+      summary: POST /v1/language
+      operationId: AddLanguage
+      responses:
+        '200':
+          description: 'Add new language'
+          schema:
+            $ref: '#/definitions/LanguagesResponse'
+      tags:
+        - Generic
+  /v1/language/{id}:
+    put:
+      summary: PUT /v1/language/:id
+      operationId: UpdateLanguage
+      responses:
+        '200':
+          description: 'Update an existed language'
+          schema:
+            $ref: '#/definitions/LanguageObject'
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Book ID
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/LanguageRequest'
+      tags:
+        - Generic
+    patch:
+      summary: PATCH /v1/language/:id
+      operationId: UpdateLanguage
+      responses:
+        '200':
+          description: 'Update an existed language'
+          schema:
+            $ref: '#/definitions/LanguageObject'
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Language ID
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/LanguageRequest'
+      tags:
+        - Generic
+  /v1/genre:
+    get:
+      summary: GET /v1/genres
+      operationId: ListGenres
+      responses:
+        '200':
+          description: 'Returns a full list of genres'
+          schema:
+            $ref: '#/definitions/GenresResponse'
+      tags:
+        - Generic
+    post:
+      summary: POST /v1/genre
+      operationId: AddGenre
+      responses:
+        '200':
+          description: 'Add new genre'
+          schema:
+            $ref: '#/definitions/GenresResponse'
+      tags:
+        - Generic
+  /v1/genre/{id}:
+    put:
+      summary: PUT /v1/genre/:id
+      operationId: UpdateGenre
+      responses:
+        '200':
+          description: 'Update an existed genre'
+          schema:
+            $ref: '#/definitions/GenreObject'
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Book ID
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/GenreRequest'
+      tags:
+        - Generic
+    patch:
+      summary: PATCH /v1/genre/:id
+      operationId: UpdateGenre
+      responses:
+        '200':
+          description: 'Update an existed genre'
+          schema:
+            $ref: '#/definitions/GenreObject'
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Genre ID
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/GenreRequest'
+      tags:
+        - Generic
+definitions:
+  BooksResponse:
+    type: array
+    items:
+      $ref: '#/definitions/BookObject'
+  AuthorsResponse:
+    type: array
+    items:
+      $ref: '#/definitions/AuthorObject'
+  LanguagesResponse:
+    type: array
+    items:
+      $ref: '#/definitions/LanguageObject'
+  GenresResponse:
+    type: array
+    items:
+      $ref: '#/definitions/GenreObject'
+  BookObject:
+    type: object
+    properties:
+      id:
+        type: number
+        format: number
+        description: 'Book ID'
+      title:
+        type: string
+        format: string
+        description: 'Book title'
+      description:
+        type: string
+        format: string
+        description: 'Book Description'
+      pages:
+        type: number
+        format: number
+        description: 'Number of pages'
+      author_id:
+        type: number
+        format: number
+        description: 'Author ID'
+      language_id:
+        type: number
+        format: number
+        description: 'Language ID'
+      genre_id:
+        type: number
+        format: number
+        description: 'Genre ID'
+  BookResponse:
+    type: object
+    properties:
+      id:
+        type: number
+        format: number
+        description: 'Book ID'
+      title:
+        type: string
+        format: string
+        description: 'Book title'
+      description:
+        type: string
+        format: string
+        description: 'Book description'
+      pages:
+        type: string
+        pattern: '^\d{3}$'
+        description: 'Number of pages'
+      author:
+        type: string
+        format: string
+        description: 'Author name'
+      language:
+        type: string
+        format: string
+        description: 'Language code'
+      genre:
+        type: string
+        format: string
+        description: 'Book genre'
+  BookRequest:
+    type: object
+    properties:
+      title:
+        type: string
+        description: 'Book title'
+      description:
+        type: string
+        description: 'Book description'
+      pages:
+        type: number
+        description: 'Number of pages'
+      author_id:
+        type: number
+        description: 'Author ID'
+      language_id:
+        type: number
+        description: 'Language ID'
+      genre_id:
+        type: number
+        description: 'Genre ID'
+  AuthorObject:
+    type: object
+    properties:
+      id:
+        type: number
+        format: number
+        description: 'Author ID'
+      name:
+        type: string
+        format: string
+        description: 'Author name'
+  AuthorRequest:
+    type: object
+    properties:
+      name:
+        type: string
+        format: string
+        description: 'Author name'
+  LanguageObject:
+    type: object
+    properties:
+      id:
+        type: number
+        format: number
+        description: 'Language ID'
+      code:
+        type: string
+        format: string
+        description: 'Language short code'
+      description:
+        type: string
+        format: string
+        description: 'Language description'
+  LanguageRequest:
+    type: object
+    properties:
+      code:
+        type: number
+        format: number
+        description: 'Language short code'
+      description:
+        type: string
+        format: string
+        description: 'Language description'
+  GenreObject:
+    type: object
+    properties:
+      id:
+        type: number
+        format: number
+        description: 'Genre ID'
+      name:
+        type: string
+        format: string
+        description: 'Genre name'
+      description:
+        type: string
+        format: string
+        description: 'Genre description'
+  GenreRequest:
+    type: object
+    properties:
+      name:
+        type: string
+        format: string
+        description: 'Genre name'
+    description:
+      type: string
+      format: string
+      description: 'Genre description'
