@@ -34,7 +34,6 @@ $config['components']['urlManager']['rules'][] = [
         '{genre}' => '<genre:\\d+>',
         '{pages}' => '<pages:\\w+>',
     ],
-    //'pluralize' => false,
     'extraPatterns' => [
         'POST' => 'create',
         'PUT {id}' => 'update',
