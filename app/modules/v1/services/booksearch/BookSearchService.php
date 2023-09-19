@@ -177,6 +177,5 @@ class BookSearchService
                 }
                 return $el;
             }, $this->query->all());
-
     }
 }
